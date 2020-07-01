@@ -1,8 +1,25 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import 'bootswatch/dist/flatly/bootstrap.css'
+import '../custom.css'
+import Rotas from './rotas'
 
 
 class App extends React.Component {
+    
+  render(){
+    return(
+      <div className="container">          
+          <Rotas />
+      </div>
+    )
+  }
+}
+
+export default App;
+
+/*
+class AppTeste extends React.Component {
   
     state = {
       nome : '',
@@ -36,4 +53,5 @@ class App extends React.Component {
     }
 }
 
-export default App;
+export default AppTeste;
+*/
