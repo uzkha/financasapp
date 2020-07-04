@@ -1,22 +1,39 @@
 import React from 'react'
 import Card from '../components/card'
 import FormGroup from '../components/form-group'
-
+import {withRouter} from 'react-router-dom'
+import UsuarioService  from '../app/service/usuarioService'
 
 class Login extends React.Component{
 
     state = {
         email : '',
-        senha : ''
-    }
-    entrar = () => {
-        console.log('Email: ', this.state.email)
-        console.log('Senha: ', this.state.senha)
+        senha : '',
+        mensagemErro: null
     }
 
-    cadastrar = () => {
-        console.log('Email: ', this.state.email)
-        console.log('Senha: ', this.state.senha)
+    constructor(){
+        super();
+        this.service = new UsuarioService();
+    }
+
+    //metodos sao assincronos (promisses), para aguardar execucao, usar assync e dentro do metodo o await
+    //sessao em cokie ou local storage, o cookie fica disponivel geral, o local storage fica acessivel somente ao front end
+    entrar = () => {
+
+        this.service.autenticar({
+            email: this.state.email,
+            senha: this.state.senha    
+        }).then(response => {
+            localStorage.setItem('_usuario_logado', JSON.stringify(response.data))
+            this.props.history.push('/home')
+        }).catch(erro => {
+            this.setState({mensagemErro: erro.response.data})
+        })       
+    }
+
+    prepareCadastrar = () => {
+        this.props.history.push('/cadastro-usuarios')
     }
 
     render(){
@@ -25,7 +42,10 @@ class Login extends React.Component{
             <div className="row">
                 <div className="col-md-6" style={ {position:'relative', left:'300px'} }>
                     <div className="bs-docs-section">
-                        <Card title="Login">                                
+                        <Card title="Login">   
+                            <div className="row">
+                                <span>{this.state.mensagemErro}</span>
+                            </div>                             
                             <div className="row">
                                 <div className="col-lg-12">
                                     <div className="bs-component">
@@ -42,7 +62,7 @@ class Login extends React.Component{
                                             </FormGroup>
                                             
                                             <button onClick={this.entrar} className="btn btn-success">Entrar</button>
-                                            <button  onClick={this.cadastrar} type="button" className="btn btn-danger">Cadastrar</button>
+                                            <button  onClick={this.prepareCadastrar} type="button" className="btn btn-danger">Cadastrar</button>
 
                                         </fieldset>
                                     </div>
@@ -59,4 +79,4 @@ class Login extends React.Component{
 
 }
 
-export default Login
+export default withRouter (Login)

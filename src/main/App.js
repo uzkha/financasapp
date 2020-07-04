@@ -3,20 +3,23 @@ import { render } from '@testing-library/react';
 import 'bootswatch/dist/flatly/bootstrap.css'
 import '../custom.css'
 import Rotas from './rotas'
-
+import Navbar from '../components/navbar'
 
 class App extends React.Component {
     
   render(){
     return(
-      <div className="container">          
-          <Rotas />
+      <div>
+        <Navbar />
+        <div className="container">          
+            <Rotas />
+        </div>
       </div>
     )
   }
 }
 
-export default App;
+export default App
 
 /*
 class AppTeste extends React.Component {
