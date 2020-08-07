@@ -76,6 +76,10 @@ export default class LancamentoService extends ApiService{
         return this.put(`/${lancamento.id}`, lancamento);
     }
 
+    alterarStatus(id, status){
+        return this.put(`/${id}/atualiza-status`, { status })
+    }
+
     validar(lancamento){
         const erros = [];
 
